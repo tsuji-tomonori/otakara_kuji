@@ -1,0 +1,14 @@
+version: "3"
+
+env:
+  AWS_PROFILE: "admin"
+
+tasks:
+  deploy:
+    cmds:
+      - pip install -r requirements.txt -t .layers/python --no-cache-dir
+      - cdk deploy
+  diff:
+    cmds:
+      - pip install -r requirements.txt -t .layers/python --no-cache-dir
+      - cdk diff

@@ -1,0 +1,52 @@
+{
+    "name": "dev_env",
+    "dockerFile": "Dockerfile",
+    "mounts": [
+        "source=${localEnv:HOME}${localEnv:USERPROFILE}/.aws,target=/home/mde-user/.aws,type=bind,consistency=cached",
+        "source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh,target=/home/mde-user/.ssh,type=bind,consistency=cached"
+    ],
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                // JP
+                "MS-CEINTL.vscode-language-pack-ja",
+                // Python
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "matangover.mypy",
+                "ms-python.flake8",
+                "Boto3typed.boto3-ide",
+                "charliermarsh.ruff",
+                "ms-python.black-formatter",
+                // Docker
+                "ms-azuretools.vscode-docker",
+                // git
+                "donjayamanne.githistory",
+                "mhutchie.git-graph",
+                // util
+                "usernamehw.errorlens",
+                "oderwat.indent-rainbow",
+                "pkief.material-icon-theme",
+                "gruntfuggly.todo-tree",
+                "shardulm94.trailing-spaces",
+                "njpwerner.autodocstring",
+                "tamasfe.even-better-toml"
+            ],
+            "settings": {
+                "[python]": {
+                    "editor.formatOnSaveMode": "file",
+                    "editor.formatOnSave": true,
+                    "editor.codeActionsOnSave": {
+                        "source.fixAll.ruff": true,
+                        "source.organizeImports.ruff": true
+                    }
+                },
+                "python.defaultInterpreterPath": "/usr/local/bin/python3.10",
+                "ruff.path": ["~/.local/bin/ruff"],
+                "python.analysis.ignore": [
+                    "app.py"
+                ]
+            }
+        }
+    }
+}

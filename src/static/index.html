@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>お宝くじ</title>
+</head>
+<body>
+    <script>
+        window.onload = (()=>{
+            fetch("https://7p9vw4pbxe.execute-api.ap-northeast-1.amazonaws.com/prod/category", {
+                method: "GET",
+                mode: "cors",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            })
+                .then((response) => {
+                    return response.json();
+                })
+                .then((data) => {
+                    if (isObject(data.message)){
+                        let opt = "";
+                        data.message.forEach(element => {
+                            opt += `<option value="${element}">${element}</option>`
+                        });
+                        document.querySelector('#category').innerHTML = opt;
+                    } else {
+                        document.querySelector('#result').innerHTML = JSON.stringify(data.message);
+                    }
+                })
+        })
+        function isObject(value) {
+            return value !== null && typeof value === 'object'
+        }
+        function omikuji(){
+            fetch("https://7p9vw4pbxe.execute-api.ap-northeast-1.amazonaws.com/prod/omikuji/hyo", {
+                method: "GET",
+                mode: "cors",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            })
+                .then((response) => {
+                    return response.json();
+                })
+                .then((data) => {
+                    if (isObject(data.message)){
+                        document.querySelector('#result').innerHTML = data.message.item_name;
+                    } else {
+                        document.querySelector('#result').innerHTML = JSON.stringify(data.message);
+                    }
+                })
+        }
+
+    </script>
+    <div class="bg-white py-6 sm:py-8 lg:py-12">
+        <div class="max-w-screen-2xl px-4 md:px-8 mx-auto">
+            <div class="max-w-xl flex flex-col items-center text-center mx-auto">
+                <p class="text-indigo-500 md:text-lg xl:text-xl font-semibold mb-4 md:mb-6">お宝くじ</p>
+
+                <h1 class="text-black-800 text-3xl sm:text-4xl md:text-5xl font-bold mb-8 md:mb-12">やりたいくじを選んでね</h1>
+
+                <div class="w-full flex flex-col sm:flex-row sm:justify-center gap-2.5">
+                    <tr class="w-full flex flex-col sm:flex-row sm:justify-center gap-2.5 ">
+                        <td class="pr-4">
+                            <select name="くじ" id="category">
+                                <div id="kuji"></div>
+                            </select>
+                        </td>
+                    </tr>
+                </div>
+
+                <div class="w-full flex flex-col sm:flex-row sm:justify-center gap-2.5 mt-6">
+                    <a  href="#" onclick="omikuji()" id="select" class="inline-block bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 focus-visible:ring ring-indigo-300 text-white text-sm md:text-base font-semibold text-center rounded-lg outline-none transition duration-100 px-8 py-3">Start!</a>
+                </div>
+                <h1 class="text-black-800 text-3xl sm:text-4xl md:text-5xl font-bold mb-8 md:mb-12" id="result"></h1>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

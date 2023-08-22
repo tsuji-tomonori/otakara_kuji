@@ -1,0 +1,7 @@
+{
+    "app": "python3.10 app.py",
+    "requireApproval": "never",
+    "context": {
+        "settings_id": "01"
+    }
+}
